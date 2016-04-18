@@ -1,6 +1,8 @@
 {
   "name": "capot-contacts",
   "version": "0.0.0",
+  "license": "MIT",
+  "repository": "lupomontero/capot-contacts",
   "main": "server/index.js",
   "dependencies": {
     "async": "^1.5.2",

@@ -92,7 +92,7 @@ exports.list = {
       id: Joi.string().required(),
       givenName: Joi.string().required(),
       familyName: Joi.string().required(),
-      org: Joi.string(),
+      org: Joi.string().allow(''),
       email: Joi.string().email().required(),
       tel: Joi.string().required(),
       streetAddress: Joi.string().required(),
@@ -160,10 +160,10 @@ exports.put = {
     params: {
       id: Joi.string().required(),
     },
-    payload: {
+    payload: Joi.object({
       givenName: Joi.string().required(),
       familyName: Joi.string().required(),
-      org: Joi.string(),
+      org: Joi.string().allow(''),
       email: Joi.string().email().required(),
       tel: Joi.string().required(),
       streetAddress: Joi.string().required(),
@@ -171,7 +171,7 @@ exports.put = {
       region: Joi.string().required(),
       postCode: Joi.string().required(),
       country: Joi.string().required()
-    }
+    })
   },
   response: {
     schema: Joi.object().keys({
@@ -202,7 +202,11 @@ exports.put = {
         return reply(Boom.wrap(err, err.statusCode || 500, err.message));
       }
 
-      reply(data);
+      reply({
+        id: data.id.split('/').slice(1).join('/'),
+        ok: data.ok,
+        rev: data.rev
+      });
     });
   }
 };
